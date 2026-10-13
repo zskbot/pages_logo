@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Prepares an Amp orb for this repository. It must stay non-interactive and idempotent.
+# The repository is static HTML with inline SVG: there are no dependencies to install.
+# The preview service in .amp/services.yaml only needs python3, which orbs ship with.
+set -euo pipefail
+
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "==> Installing python3 for the static preview server"
+  sudo apt-get update
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3
+fi
+
+echo "==> $(python3 --version) ready for the static preview server"
