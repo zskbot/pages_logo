@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bộ logo thư viện lập trình</title>
+<style>
+:root{
+  --bg:#ffffff;
+  --text-primary:#111111;
+  --text-secondary:#666666;
+  --border:#e5e5e5;
+  --border-strong:#c9c9c9;
+  --surface:#f6f6f6;
+  --radius:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b0b0b;
+    --text-primary:#f2f2f2;
+    --text-secondary:#9a9a9a;
+    --border:#2a2a2a;
+    --border-strong:#444444;
+    --surface:#171717;
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text-primary);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+.page{max-width:1100px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:24px;font-weight:600;margin:0 0 6px}
+.sub{color:var(--text-secondary);font-size:14px;line-height:1.6;margin:0 0 18px}
+#q{
+  width:100%;max-width:360px;padding:10px 14px;font-size:15px;font-family:inherit;
+  border:1px solid var(--border-strong);border-radius:8px;
+  background:var(--surface);color:var(--text-primary);outline:none;
+}
+#q:focus{border-color:var(--text-primary)}
+section{margin-top:34px}
+h2{font-size:16px;font-weight:600;margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.card{
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:10px 12px 10px;cursor:pointer;background:var(--bg);
+  transition:border-color .2s ease;
+}
+.card:hover{border-color:var(--border-strong)}
+.card svg{display:block;width:100%;height:96px}
+.cap{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin-top:6px;font-size:12px;color:var(--text-secondary);
+}
+.dl{
+  border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);
+  color:var(--text-primary);font-size:12px;padding:3px 9px;cursor:pointer;font-family:inherit;
+}
+.dl:hover{border-color:var(--text-primary)}
+.empty{display:none;margin-top:30px;color:var(--text-secondary)}
+
+/* Hiệu ứng logo */
+.l{stroke-dasharray:1;stroke-dashoffset:1}
+.go .l{animation:draw .8s cubic-bezier(.65,0,.35,1) both;animation-delay:calc(var(--d) + var(--i)*.12s + .3s)}
+.go .sl{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s ease-out both;animation-delay:var(--d)}
+.go .js{animation:slide .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d) + var(--n)*.12s + .75s)}
+.go .hr{animation:sweep 1.1s cubic-bezier(.65,0,.35,1) both;animation-delay:calc(var(--d) + .2s)}
+.g{transition:transform .25s cubic-bezier(.2,.8,.2,1);transform-box:fill-box}
+.g:hover{transform:translateY(-4px)}
+.hr{transform-origin:0 50%;transform-box:fill-box}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes slide{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes sweep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){
+  .go *{animation:none!important}
+  .l,.sl{stroke-dashoffset:0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Bộ logo thư viện lập trình</h1>
+  <p class="sub">
+    <span id="count"></span> logo theo phong cách OCODE.js: chữ hình học nét đậm, hậu tố nhỏ ở đường chân chữ.
+    Bấm vào một logo để chạy lại hiệu ứng, bấm "Tải SVG" để tải file vector.<br>
+    Đây là bộ logo chữ thiết kế mới, không phải logo chính thức của các thư viện.
+  </p>
+  <input id="q" type="search" placeholder="Tìm thư viện (ví dụ: react, django)..." aria-label="Tìm thư viện">
+  <div id="root"></div>
+  <p class="empty" id="empty">Không tìm thấy thư viện nào khớp.</p>
+</div>
+
+<script>
+/* Bộ chữ hình học: [độ rộng, đường vẽ]. Cao 47, nét 9, vẽ theo đường tâm. */
+var GL = {
+  A:[33,'M0 47V16.5A16.5 16.5 0 0 1 33 16.5V47M0 29H33'],
+  B:[29,'M0 0V47M0 0H17A11.75 11.75 0 0 1 17 23.5H0M17 23.5A11.75 11.75 0 0 1 17 47H0'],
+  C:[33,'M33 0H16.5A16.5 16.5 0 0 0 0 16.5V30.5A16.5 16.5 0 0 0 16.5 47H33'],
+  D:[33,'M0 0H16.5A16.5 16.5 0 0 1 33 16.5V30.5A16.5 16.5 0 0 1 16.5 47H0Z'],
+  E:[33,'M33 0H0V47H33M0 23.5H28'],
+  F:[33,'M33 0H0V47M0 23.5H28'],
+  G:[33,'M33 0H16.5A16.5 16.5 0 0 0 0 16.5V30.5A16.5 16.5 0 0 0 16.5 47H33V25H19'],
+  H:[33,'M0 0V47M33 0V47M0 23.5H33'],
+  I:[0,'M0 0V47'],
+  J:[33,'M33 0V30.5A16.5 16.5 0 0 1 16.5 47H5'],
+  K:[33,'M0 0V47M33 0L0 30M10 20L33 47'],
+  L:[33,'M0 0V47H33'],
+  M:[45,'M0 47V0L22.5 27L45 0V47'],
+  N:[33,'M0 47V0L33 47V0'],
+  O:[33,'M16.5 0A16.5 16.5 0 0 0 0 16.5V30.5A16.5 16.5 0 0 0 16.5 47A16.5 16.5 0 0 0 33 30.5V16.5A16.5 16.5 0 0 0 16.5 0Z'],
+  P:[29,'M0 47V0H17A12 12 0 0 1 17 24H0'],
+  Q:[33,'M16.5 0A16.5 16.5 0 0 0 0 16.5V30.5A16.5 16.5 0 0 0 16.5 47A16.5 16.5 0 0 0 33 30.5V16.5A16.5 16.5 0 0 0 16.5 0ZM21 32L33 47'],
+  R:[29,'M0 47V0H17A12 12 0 0 1 17 24H0M12 24L29 47'],
+  S:[30,'M30 0H15A11.75 11.75 0 0 0 15 23.5H18A11.75 11.75 0 0 1 18 47H0'],
+  T:[33,'M0 0H33M16.5 0V47'],
+  U:[33,'M0 0V30.5A16.5 16.5 0 0 0 16.5 47A16.5 16.5 0 0 0 33 30.5V0'],
+  V:[33,'M0 0L16.5 47L33 0'],
+  W:[49,'M0 0L12 47L24.5 12L37 47L49 0'],
+  X:[33,'M0 0L33 47M33 0L0 47'],
+  Y:[33,'M0 0L16.5 24L33 0M16.5 24V47'],
+  Z:[33,'M0 0H33L0 47H33'],
+  '2':[33,'M0 0H33V23.5H0V47H33'],
+  '3':[33,'M0 0H33V47H0M10 23.5H33'],
+  '4':[33,'M0 0V23.5H33M24 0V47']
+};
+
+/* [chữ chính, hậu tố, tên hiển thị] */
+var DATA = [
+  {cat:'1. Python (AI & Dữ liệu)', items:[
+    ['NUMPY','','NumPy'],['PANDAS','','Pandas'],['SCIPY','','SciPy'],
+    ['MATPLOTLIB','','Matplotlib'],['SEABORN','','Seaborn'],
+    ['BEAUTIFUL','SOUP','BeautifulSoup'],['SCRAPY','','Scrapy'],
+    ['DJANGO','','Django'],['FASTAPI','','FastAPI'],['FLASK','','Flask']]},
+  {cat:'2. JavaScript / TypeScript (Giao diện & Web)', items:[
+    ['REACT','','React'],['VUE','.JS','Vue.js'],['ANGULAR','','Angular'],
+    ['NEXT','.JS','Next.js'],['NUXT','.JS','Nuxt.js'],['SVELTE','KIT','SvelteKit'],
+    ['EXPRESS','.JS','Express.js'],['NEST','JS','NestJS'],['FASTIFY','','Fastify'],
+    ['PRISMA','','Prisma'],['MONGOOSE','','Mongoose'],['SEQUELIZE','','Sequelize']]},
+  {cat:'3. Java / Kotlin (Doanh nghiệp & Android)', items:[
+    ['SPRING','BOOT','Spring Boot'],['QUARKUS','','Quarkus'],
+    ['JETPACK','COMPOSE','Jetpack Compose'],['RETROFIT','','Retrofit'],
+    ['ROOM','','Room'],['LOG4J2','','Log4j2'],['LOMBOK','','Lombok']]},
+  {cat:'4. C# / .NET (Phần mềm PC & Game)', items:[
+    ['ASP','.NET CORE','ASP.NET Core'],['UNITY3D','','Unity3D'],
+    ['ENTITY','FRAMEWORK CORE','Entity Framework Core']]},
+  {cat:'5. C / C++ (Hệ thống & Hiệu năng cao)', items:[
+    ['OPENGL','','OpenGL'],['DIRECTX','','DirectX'],['SDL','','SDL'],
+    ['SFML','','SFML'],['OPENCV','','OpenCV'],['ARDUINO','','Arduino']]},
+  {cat:'6. Ứng dụng di động đa nền tảng', items:[
+    ['FLUTTER','','Flutter'],['PROVIDER','','Provider'],['BLOC','','Bloc'],
+    ['DIO','','Dio'],['REACT','NATIVE','React Native'],
+    ['REACT','NAVIGATION','React Navigation'],['REDUX','TOOLKIT','Redux Toolkit']]}
+];
+
+var FONT = '-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif';
+
+function buildLogo(main, tag, delay){
+  var x = 34, parts = [], k = 0, i, ch, g;
+  for(i = 0; i < main.length; i++){
+    ch = main.charAt(i); g = GL[ch];
+    parts.push('<g class="g"><path class="l" pathLength="1" style="--i:' + k +
+      '" transform="translate(' + (x + 4.5) + ' 48.5)" d="' + g[1] + '"/></g>');
+    x += g[0] + 9 + 10; k++;
+  }
+  var endX = x - 10, tagW = tag ? tag.length * 10.8 + 4 : 0;
+  var tx = endX + 7;
+  var W = Math.round(tag ? tx + tagW + 24 : endX + 30);
+  var tagEl = tag ? '<text class="js" x="' + tx + '" y="99" style="fill:var(--text-primary)" ' +
+    'font-family="' + FONT + '" font-weight="500" font-size="17" letter-spacing="0.5">' + tag + '</text>' : '';
+  return '<svg class="go" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' 140" ' +
+    'preserveAspectRatio="xMidYMid meet" role="img" style="--d:' + delay + 's;--n:' + k + '">' +
+    '<line class="sl" pathLength="1" x1="12" y1="100" x2="24" y2="44" stroke="var(--border-strong)" stroke-width="1"/>' +
+    '<g fill="none" stroke="var(--text-primary)" stroke-width="9" stroke-linejoin="miter" stroke-linecap="butt">' +
+    parts.join('') + '</g>' + tagEl +
+    '<line class="hr" x1="0" y1="124" x2="' + W + '" y2="124" stroke="var(--border)" stroke-width="1"/></svg>';
+}
+
+function svgToFile(svg){
+  var s = svg.outerHTML;
+  s = s.replace(/ class="[^"]*"/g, '')
+       .replace(/ style="--[^"]*"/g, '')
+       .replace(/var\(--text-primary\)/g, '#111111')
+       .replace(/var\(--border-strong\)/g, '#c9c9c9')
+       .replace(/var\(--border\)/g, '#e5e5e5');
+  var m = s.match(/viewBox="0 0 (\d+) 140"/);
+  s = s.replace('<svg ', '<svg width="' + m[1] + '" height="140" ');
+  return s;
+}
+
+function download(svg, name){
+  var blob = new Blob([svgToFile(svg)], {type:'image/svg+xml'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.svg';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+}
+
+var root = document.getElementById('root'), total = 0, sections = [];
+
+DATA.forEach(function(group){
+  var sec = document.createElement('section');
+  var h = document.createElement('h2'); h.textContent = group.cat;
+  var grid = document.createElement('div'); grid.className = 'grid';
+  sec.appendChild(h); sec.appendChild(grid);
+  var cards = [];
+  group.items.forEach(function(it, idx){
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = buildLogo(it[0], it[1], (idx * 0.06).toFixed(2)) +
+      '<div class="cap"><span>' + it[2] + '</span><button class="dl" type="button">Tải SVG</button></div>';
+    var svg = card.querySelector('svg');
+    card.addEventListener('click', function(e){
+      if(e.target.classList.contains('dl')){ download(svg, it[2]); return; }
+      svg.classList.remove('go'); void svg.getBoundingClientRect(); svg.classList.add('go');
+    });
+    grid.appendChild(card);
+    cards.push({el:card, name:(it[2] + ' ' + it[0] + ' ' + it[1]).toLowerCase()});
+    total++;
+  });
+  root.appendChild(sec);
+  sections.push({el:sec, cards:cards});
+});
+
+document.getElementById('count').textContent = total;
+
+document.getElementById('q').addEventListener('input', function(){
+  var v = this.value.trim().toLowerCase(), shown = 0;
+  sections.forEach(function(s){
+    var any = 0;
+    s.cards.forEach(function(c){
+      var ok = !v || c.name.indexOf(v) !== -1;
+      c.el.style.display = ok ? '' : 'none';
+      if(ok){ any++; shown++; }
+    });
+    s.el.style.display = any ? '' : 'none';
+  });
+  document.getElementById('empty').style.display = shown ? 'none' : 'block';
+});
+</script>
+</body>
+</html>
