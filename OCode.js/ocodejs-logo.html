@@ -3,66 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCODE.js - Logo</title>
+<title>OCode.js - Logo</title>
 <style>
-:root{
-  --text-primary:#111111;
-  --border:#e5e5e5;
-  --border-strong:#c9c9c9;
-}
-@media (prefers-color-scheme: dark){
-  :root{--text-primary:#f2f2f2;--border:#2a2a2a;--border-strong:#444444}
-}
+:root{--text-primary:#111111;--border:#e5e5e5;--border-strong:#c9c9c9}
+@media(prefers-color-scheme:dark){:root{--text-primary:#f2f2f2;--border:#2a2a2a;--border-strong:#444}}
 *{box-sizing:border-box}
 html,body{min-height:100%;margin:0;background:transparent}
-body{
-  background:transparent;color:var(--text-primary);
-  font-family:Geist,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-}
-.wrap{width:100%;max-width:520px;padding:24px}
-.wordmark{fill:var(--text-primary);font-weight:700;letter-spacing:-3.6px}
-.js{font-weight:600;letter-spacing:-.4px}
-.l{opacity:0;transform:translateY(5px)}
-.go .l{animation:appear .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.13s + .2s)}
-.go .js{opacity:0;animation:slide .5s cubic-bezier(.2,.8,.2,1) 1.05s both}
-.go .hr{animation:sweep 1s cubic-bezier(.65,0,.35,1) .15s both}
-.g{transition:transform .25s cubic-bezier(.2,.8,.2,1);transform-box:fill-box}
-.g:hover{transform:translateY(-4px)}
-.hr{transform-origin:0 50%;transform-box:fill-box}
-#logo{display:block;transition:opacity .5s ease}
+body{color:var(--text-primary);font-family:Geist,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;display:flex;align-items:center;justify-content:center}
+.wrap{width:100%;max-width:760px;padding:24px}
+#logo{display:block;width:100%;overflow:visible}
+.letter{opacity:0;transform:translateY(5px)}
+.go .letter{animation:appear .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.1s + .15s)}
+.go .hr{animation:sweep .8s cubic-bezier(.65,0,.35,1) .1s both}
+.hr{transform-origin:left;transform-box:fill-box}
 #logo.out{opacity:0}
+#logo{transition:opacity .45s ease}
 @keyframes appear{to{opacity:1;transform:none}}
-@keyframes slide{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
 @keyframes sweep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@media (prefers-reduced-motion:reduce){.go *{animation:none!important}.l{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.go *{animation:none!important}.letter{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<svg id="logo" class="go" width="100%" viewBox="0 0 380 140" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title>Logo OCODE.js</title>
-  <desc>Wordmark OCODE.js với kiểu chữ sans-serif đậm lấy cảm hứng từ phong cách Next.js; nền trong suốt.</desc>
-  <g fill="none" stroke="var(--border-strong)" stroke-width="1">
-    <line class="sl" x1="12" y1="100" x2="24" y2="44"/>
-  </g>
-  <g class="wordmark">
-    <text class="l" style="--i:0" x="24" y="94" font-size="58">O</text>
-    <text class="l" style="--i:1" x="69" y="94" font-size="58">C</text>
-    <text class="l" style="--i:2" x="111" y="94" font-size="58">O</text>
-    <text class="l" style="--i:3" x="156" y="94" font-size="58">D</text>
-    <text class="l" style="--i:4" x="203" y="94" font-size="58">E</text>
-  </g>
-  <text class="js" x="279" y="94" font-size="18" fill="var(--text-primary)">.JS</text>
-  <line class="hr" x1="0" y1="124" x2="380" y2="124" stroke="var(--border)" stroke-width="1"/>
+<svg id="logo" class="go" viewBox="0 0 380 140" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>OCode.js logo</title>
+<desc>OCode.js in mixed case, matching the heading style, with a transparent background.</desc>
+<g fill="var(--text-primary)" font-family="Geist,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="43" font-weight="600" letter-spacing="-1.8">
+<text class="letter" style="--i:0" x="47" y="83">O</text>
+<text class="letter" style="--i:1" x="80" y="83">C</text>
+<text class="letter" style="--i:2" x="111" y="83">o</text>
+<text class="letter" style="--i:3" x="139" y="83">d</text>
+<text class="letter" style="--i:4" x="168" y="83">e</text>
+<text class="letter" style="--i:5" x="194" y="83">.</text>
+<text class="letter" style="--i:6" x="207" y="83">j</text>
+<text class="letter" style="--i:7" x="224" y="83">s</text>
+</g>
+<line class="hr" x1="0" y1="112" x2="380" y2="112" stroke="var(--border)" stroke-width="1"/>
 </svg>
 </div>
 <script>
-var s=document.getElementById('logo'),t1,t2;
-function play(){
-  clearTimeout(t1);clearTimeout(t2);s.classList.remove('go','out');void s.getBoundingClientRect();s.classList.add('go');
-  t1=setTimeout(function(){s.classList.add('out');t2=setTimeout(play,550)},4200);
-}
+const logo=document.getElementById('logo');let fadeTimer,restartTimer;
+function play(){clearTimeout(fadeTimer);clearTimeout(restartTimer);logo.classList.remove('go','out');void logo.getBoundingClientRect();logo.classList.add('go');fadeTimer=setTimeout(()=>{logo.classList.add('out');restartTimer=setTimeout(play,500)},3800)}
 play();
 </script>
 </body>
