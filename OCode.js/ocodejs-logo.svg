@@ -1,9 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="280" viewBox="0 0 380 140" role="img" aria-labelledby="title desc">
   <title id="title">OCode.js logo</title>
-  <desc id="desc">Transparent OCODE.js wordmark using a bold geometric sans-serif style inspired by the Next.js wordmark.</desc>
-  <g fill="#ffffff" font-family="Geist, Arial, Helvetica, sans-serif" font-weight="700">
-    <text x="24" y="94" font-size="58" letter-spacing="-3.6">OCODE</text>
-    <text x="279" y="94" font-size="18" font-weight="600" letter-spacing="-0.4">.JS</text>
-  </g>
+  <desc id="desc">Transparent OCode.js wordmark matching the mixed-case heading style.</desc>
+  <text x="190" y="88" text-anchor="middle" fill="#ffffff" font-family="Geist, Arial, Helvetica, sans-serif" font-size="58" font-weight="600" letter-spacing="-2.4">OCode.js</text>
   <path d="M0 124H380" stroke="#bdbdbd" stroke-width="1"/>
 </svg>
