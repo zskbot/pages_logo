@@ -1,0 +1,37 @@
+name: Brand asset validation
+
+on:
+  pull_request:
+    paths:
+      - "assets/**"
+      - "scripts/validate-assets.py"
+      - "OCode.js/**"
+      - "index.html"
+      - "_config.yml"
+      - ".github/workflows/asset-validation.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: asset-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Validate Python syntax
+        run: python -m py_compile scripts/validate-assets.py
+      - name: Validate declared logo assets
+        run: python scripts/validate-assets.py
+      - name: Build Jekyll site without deploying
+        run: |
+          docker run --rm \
+            -v "${GITHUB_WORKSPACE}:/srv/jekyll" \
+            -w /srv/jekyll \
+            jekyll/builder:latest \
+            jekyll build --source /srv/jekyll --destination /tmp/site

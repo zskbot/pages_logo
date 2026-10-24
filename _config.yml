@@ -1,0 +1,10 @@
+# Preserve upstream documentation snapshots in Git without rendering them as Pages.
+exclude:
+  - content/
+  - files/
+  - .agents/
+  - skills/
+  - node_modules/
+  - vendor/
+  - scripts/
+  - assets/asset-manifest.json

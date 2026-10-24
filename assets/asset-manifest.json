@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "path": "OCode.js/ocodejs-logo.svg",
+      "kind": "svg",
+      "brand": "OCode.js",
+      "purpose": "transparent white wordmark"
+    },
+    {
+      "path": "OCode.js/ocode-logo.gif",
+      "kind": "gif",
+      "brand": "OCode.js",
+      "purpose": "animated wordmark"
+    }
+  ]
+}
