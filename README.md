@@ -3,10 +3,14 @@
 This repository contains static brand previews and reusable visual assets for the Velclaw ecosystem. Existing asset paths are preserved; add new variants alongside originals rather than replacing them without review.
 
 ## OCode.js
+- [Animated OCode.js GIF](OCode.js/ocode-logo.gif)
 - [OCode.js logo preview](OCode.js/ocodejs-logo.html)
 - [OCode.js SVG wordmark](OCode.js/ocodejs-logo.svg)
 - [OCode.js logo library preview](OCode.js/bo-logo-thu-vien.html)
 - [OCode.js asset directory](OCode.js/)
+
+Canonical raw GIF URL:
+`https://raw.githubusercontent.com/zskbot/pages_logo/main/OCode.js/ocode-logo.gif`
 
 Canonical raw SVG URL:
 `https://raw.githubusercontent.com/zskbot/pages_logo/main/OCode.js/ocodejs-logo.svg`
