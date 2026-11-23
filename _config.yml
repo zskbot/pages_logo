@@ -1,0 +1,9 @@
+# Keep imported documentation corpora available in the repository without
+# treating upstream Markdown examples as pages in this brand-asset site.
+exclude:
+  - content/
+  - files/
+  - .agents/
+  - skills/
+  - node_modules/
+  - vendor/
